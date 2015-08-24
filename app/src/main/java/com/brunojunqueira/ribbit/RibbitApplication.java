@@ -15,9 +15,6 @@ public class RibbitApplication extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "0GZyadQYTFDESyeOcSnenCKSMTKiJpMm6z0vtwnu", "0NcdYslG2sAjLd60WTth9cMbsuAwcruNllFCdPJR");
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
     }
 
 }
