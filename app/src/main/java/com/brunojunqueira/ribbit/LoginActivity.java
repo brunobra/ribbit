@@ -1,5 +1,6 @@
 package com.brunojunqueira.ribbit;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         mLoginProgressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
         mLoginProgressBar.setVisibility(View.INVISIBLE);
