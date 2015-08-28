@@ -7,5 +7,5 @@
           android:orderInCategory="100"
           app:showAsAction="always"
           android:visible="false"
-          android:icon="@drawable/ic_send_white"/>
+          android:icon="@drawable/ic_menu_send"/>
 </menu>
