@@ -1,5 +1,6 @@
-package com.brunojunqueira.ribbit;
+package com.brunojunqueira.ribbit.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,12 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brunojunqueira.ribbit.adapters.UserAdapter;
+import com.brunojunqueira.ribbit.utils.FileHelper;
+import com.brunojunqueira.ribbit.utils.ParseConstants;
+import com.brunojunqueira.ribbit.R;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -36,37 +42,24 @@ public class RecipientsActivity extends AppCompatActivity {
     protected ParseUser mCurrentUser;
     protected Uri mMediaUri;
     protected String mFileType;
-
     protected MenuItem mSendMenuItem;
-
-    private ListView mRecipientListView;
-    private TextView mEmptyFriendListView;
+    protected GridView mGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_recipients);
+        setContentView(R.layout.user_grid);
 
-        mRecipientListView = (ListView) findViewById(R.id.recipientsList);
-        mEmptyFriendListView = (TextView) findViewById(R.id.recipientsEmpty);
+        mGridView = (GridView)findViewById(R.id.friendsGrid);
+        mGridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mGridView.setOnItemClickListener(mOnItemClickListener);
+
+        TextView emptyTextView = (TextView) findViewById(android.R.id.empty);
+        mGridView.setEmptyView(emptyTextView);
 
         mMediaUri = getIntent().getData();
         mFileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE);
-
-        mRecipientListView.setEmptyView(mEmptyFriendListView);
-        mRecipientListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        mRecipientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if ( mRecipientListView.getCheckedItemCount() > 0 ) {
-                    mSendMenuItem.setVisible(true);
-                } else {
-                    mSendMenuItem.setVisible(false);
-                }
-
-            }
-        });
     }
 
     @Override
@@ -98,11 +91,12 @@ public class RecipientsActivity extends AppCompatActivity {
                         usernames[i] = user.getUsername();
                         i++;
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                            mRecipientListView.getContext(),
-                            android.R.layout.simple_list_item_checked,
-                            usernames);
-                    mRecipientListView.setAdapter(adapter);
+                    if (mGridView.getAdapter() == null) {
+                        UserAdapter adapter = new UserAdapter(RecipientsActivity.this, mFriends);
+                        mGridView.setAdapter(adapter);
+                    } else {
+                        ((UserAdapter) mGridView.getAdapter()).refill(mFriends);
+                    }
                 } else {
                     //Error
                     Log.e(TAG, e.getMessage());
@@ -170,8 +164,8 @@ public class RecipientsActivity extends AppCompatActivity {
 
     protected ArrayList<String> getRecipientsIds() {
         ArrayList<String> recipientIds = new ArrayList<String>();
-        for ( int i = 0 ; i < mRecipientListView.getCount() ; i ++ ) {
-            if (mRecipientListView.isItemChecked(i)) {
+        for ( int i = 0 ; i < mGridView.getCount() ; i ++ ) {
+            if (mGridView.isItemChecked(i)) {
                 recipientIds.add(mFriends.get(i).getObjectId());
             }
         }
@@ -196,4 +190,23 @@ public class RecipientsActivity extends AppCompatActivity {
             }
         });
     }
+
+    protected AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (mGridView.getCheckedItemCount() > 0) {
+                mSendMenuItem.setVisible(true);
+            } else {
+                mSendMenuItem.setVisible(false);
+            }
+
+            ImageView checkImageView = (ImageView)view.findViewById(R.id.checkImageView);
+
+            if (mGridView.isItemChecked(position)) {
+                checkImageView.setVisibility(View.VISIBLE);
+            } else {
+                checkImageView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 }

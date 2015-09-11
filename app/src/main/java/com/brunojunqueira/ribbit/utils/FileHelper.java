@@ -1,4 +1,4 @@
-package com.brunojunqueira.ribbit;
+package com.brunojunqueira.ribbit.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

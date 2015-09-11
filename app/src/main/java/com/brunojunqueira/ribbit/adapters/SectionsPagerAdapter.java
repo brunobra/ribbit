@@ -1,4 +1,4 @@
-package com.brunojunqueira.ribbit;
+package com.brunojunqueira.ribbit.adapters;
 
 /**
  * Created by brunojunqueira on 17/08/15.
@@ -8,6 +8,10 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.brunojunqueira.ribbit.R;
+import com.brunojunqueira.ribbit.ui.FriendsFragment;
+import com.brunojunqueira.ribbit.ui.InboxFragment;
 
 import java.util.Locale;
 

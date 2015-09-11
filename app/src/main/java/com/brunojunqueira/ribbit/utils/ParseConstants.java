@@ -1,4 +1,4 @@
-package com.brunojunqueira.ribbit;
+package com.brunojunqueira.ribbit.utils;
 
 /**
  * Created by brunojunqueira on 17/08/15.

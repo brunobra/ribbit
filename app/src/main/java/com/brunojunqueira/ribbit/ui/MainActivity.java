@@ -1,4 +1,4 @@
-package com.brunojunqueira.ribbit;
+package com.brunojunqueira.ribbit.ui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +25,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.brunojunqueira.ribbit.utils.ParseConstants;
+import com.brunojunqueira.ribbit.R;
+import com.brunojunqueira.ribbit.adapters.SectionsPagerAdapter;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
